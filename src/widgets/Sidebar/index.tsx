@@ -1,16 +1,18 @@
+'use client'
 import { FC } from 'react';
 
+import { useNavigationStore } from '@/providers/zustand/navigation-store';
 interface Props {
-  className?: string
 };
 
-const Index: FC<Props> = ({ className }) => {
+const Index: FC<Props> = ({ }) => {
   const items = ['item1', 'item2', 'item3', 'item4', 'item5']
+  const { isSidebarOpen } = useNavigationStore((state) => state)
 
   return (
-    <div className={`relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 h-[calc(100vh-64px)]  p-4 shadow-xl  translate-x-[-100%] w-0`}>
+    <div className={`relative flex flex-col transition-all bg-clip-border rounded-xl bg-white text-gray-700 h-[calc(100vh-64px)] shadow-xl overflow-hidden  ${!isSidebarOpen && "translate-x-[-100%] w-0"}`}>
       <div className="mb-2 p-4">
-        <h5 className=" font-sans text-xl font-semibold text-text-2">Sidebar</h5>
+        <h5 className="font-sans text-xl font-semibold text-text-2 ">Sidebar</h5>
       </div>
       <nav className=" space-y-3 min-w-[240px] p-2 font-sans text-base font-normal text-gray-700">
         {items.map(item => (
