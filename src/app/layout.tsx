@@ -21,15 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <div className=" w-full">
+        <div className="flex overflow-hidden">
           <Header />
         </div>
-        <div className="flex">
-          <div>
-            <Sidebar />
-          </div>
-          <main className="flex-1">
-
+        <div className="flex mt-16 box-border h-[100vh-64px] w-full">
+          <Sidebar className="flex-1 w-full overflow-auto " />
+          <main className="flex-1 w-full h-[100vh-64px]">
             {children}
           </main>
         </div>
