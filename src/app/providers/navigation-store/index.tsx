@@ -28,9 +28,7 @@ export const NavigationStoreProvider = ({ children }: Props) => {
   );
 };
 
-export const useNavigationStore = <T,>(
-  selector: (store: NavigationStore) => T,
-): T => {
+export const useNavigationStore = <T,>(selector: (store: NavigationStore) => T,): T => {
   const navigationStoreContext = useContext(NavigationStoreContext);
 
   if (!navigationStoreContext) {

@@ -6,7 +6,7 @@ import Sidebar from "@/widgets/Sidebar";
 
 import "@/shared/styles/globals.scss";
 
-import { NavigationStoreProvider } from "@/providers/navigation-store";
+import { NavigationStoreProvider } from "@/app/providers/navigation-store";
 
 const roboto = Roboto({ subsets: ["cyrillic"], weight: "400" });
 
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru">
+    <html lang="ru" className="dark">
       <body className={roboto.className}>
         <div className="mt-16 box-border flex h-[100vh-64px] w-full">
           <NavigationStoreProvider>

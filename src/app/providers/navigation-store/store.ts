@@ -1,5 +1,5 @@
-import { create, createStore } from "zustand";
-import { persist } from "zustand/middleware";
+import { Mutate, StoreApi, create, createStore } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 export type NavigationStore = NavigationState & NavigationActions;
 
@@ -15,17 +15,15 @@ export type NavigationActions = {
 
 export const defaultInitState: NavigationState = {
   isSidebarOpen: false,
-  isDark: false,
+  isDark: true,
 };
 
 //initialize
-export const initNavigationStore = create<NavigationStore>()(
+export const initNavigationStore = create<NavigationState>()(
   persist(
     (set, get) => ({
       isDark: true,
       isSidebarOpen: true,
-      toggleDark: () => set({ ...set, isDark: !get().isDark }),
-      toggleSidebar: () => set({ ...set, isSidebarOpen: !get().isSidebarOpen }),
     }),
     {
       name: "nav-store",
