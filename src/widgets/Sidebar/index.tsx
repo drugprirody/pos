@@ -1,7 +1,8 @@
 "use client";
 import { FC } from "react";
 
-import { useNavigationStore } from "@/providers/zustand/navigation-store";
+import { useNavigationStore } from "@/providers/navigation-store";
+
 import { TvIcon } from "lucide-react";
 interface Props {}
 

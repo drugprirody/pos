@@ -6,7 +6,8 @@
     "dev": "next dev -p 5500",
     "build": "next build",
     "start": "next start -p 5501",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "npx prettier --write ."
   },
   "dependencies": {
     "@radix-ui/react-radio-group": "^1.1.3",
