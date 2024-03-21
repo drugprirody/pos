@@ -1,4 +1,5 @@
-import { createStore } from "zustand/vanilla";
+import { create, createStore } from "zustand";
+import { persist } from "zustand/middleware";
 
 export type NavigationStore = NavigationState & NavigationActions;
 
@@ -18,9 +19,19 @@ export const defaultInitState: NavigationState = {
 };
 
 //initialize
-export const initNavigationStore = (): NavigationState => {
-  return defaultInitState;
-};
+export const initNavigationStore = create<NavigationStore>()(
+  persist(
+    (set, get) => ({
+      isDark: true,
+      isSidebarOpen: true,
+      toggleDark: () => set({ ...set, isDark: !get().isDark }),
+      toggleSidebar: () => set({ ...set, isSidebarOpen: !get().isSidebarOpen }),
+    }),
+    {
+      name: "nav-store",
+    },
+  ),
+);
 
 export const createNavigationStore = (
   initState: NavigationState = defaultInitState,

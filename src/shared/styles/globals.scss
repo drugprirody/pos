@@ -10,7 +10,7 @@
 
 body {
   font-size: 16px;
-  @apply bg-bg-1 dark:bg-text-1 text-text-1 dark:text-bg-1
+  @apply bg-bg-1 text-text-1 dark:bg-text-1 dark:text-bg-1;
 }
 
 @layer utilities {
@@ -34,7 +34,7 @@ body {
     border: 2px solid transparent;
     background-clip: content-box;
     // gray-1
-    background-color: #E9ECEF; 
+    background-color: #e9ecef;
     cursor: pointer;
   }
 }
