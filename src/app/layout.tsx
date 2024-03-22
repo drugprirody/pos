@@ -6,7 +6,7 @@ import Sidebar from "@/widgets/Sidebar";
 
 import "@/shared/styles/globals.scss";
 
-import { NavigationStoreProvider } from "@/app/providers/navigation-store";
+import { NavigationStoreProvider } from "@/app/_providers/navigation-store";
 
 const roboto = Roboto({ subsets: ["cyrillic"], weight: "400" });
 
