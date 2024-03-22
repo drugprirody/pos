@@ -6,8 +6,6 @@ import Sidebar from "@/widgets/Sidebar";
 
 import "@/shared/styles/globals.scss";
 
-import { NavigationStoreProvider } from "@/app/_providers/navigation-store";
-
 const roboto = Roboto({ subsets: ["cyrillic"], weight: "400" });
 
 export const metadata: Metadata = {
@@ -23,11 +21,8 @@ export default function RootLayout({
     <html lang="ru" className="dark">
       <body className={roboto.className}>
         <div className="mt-16 box-border flex h-[100vh-64px] w-full">
-          <NavigationStoreProvider>
-            <Header />
-            <Sidebar />
-          </NavigationStoreProvider>
-
+          <Header />
+          <Sidebar />
           <main className="w-full flex-1">{children}</main>
         </div>
       </body>

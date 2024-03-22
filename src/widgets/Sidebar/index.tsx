@@ -1,14 +1,13 @@
 "use client";
 import { FC } from "react";
 
-import { useNavigationStore } from "@/app/_providers/navigation-store";
-
 import { TvIcon } from "lucide-react";
 interface Props {}
 
 const Index: FC<Props> = ({}) => {
   const items = ["item1", "item2", "item3", "item4", "item5"];
-  const { isSidebarOpen } = useNavigationStore((state) => state);
+
+  const isSidebarOpen = true;
 
   return (
     <div
