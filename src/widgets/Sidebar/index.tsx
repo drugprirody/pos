@@ -1,17 +1,18 @@
 "use client";
 import { FC } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 //jotai
 import { useAtom } from "jotai";
 import atoms from "@/app/_providers/jotai";
 
-import { TvIcon } from "lucide-react";
+import { NAV_ITEMS } from "@/data";
 
 interface Props {}
 
 const Index: FC<Props> = ({}) => {
-  const items = ["item1", "item2", "item3", "item4", "item5"];
-
+  const pathname = usePathname()
   const [isSidebarOpen] = useAtom(atoms.isSidebarOpen)
 
   return (
@@ -26,18 +27,18 @@ const Index: FC<Props> = ({}) => {
         </h5>
       </div>
         <nav className="font-sans text-gray-700 space-y-3 p-2 text-base font-normal">
-        {items.map((item) => (
-          <div
-            key={item}
-            role="button"
-            tabIndex={0}
-            className="flex w-full items-center rounded-lg px-3 py-2 leading-tight dark:text-gray-50 hover:bg-text-4 focus:bg-accent"
+          {NAV_ITEMS.map(({ Icon, title, url }) => (
+            <Link
+              key={title}
+              href={url}
+              role="button"
+              className={`flex w-full items-center rounded-lg px-3 py-2 leading-tight dark:text-gray-50 dark:hover:bg-gray-700 hover:bg-gray-300 ${url === pathname && 'bg-slate-300 dark:bg-slate-600 hover:!bg-slate-300 hover:dark:!bg-slate-600'}`}
           >
             <div className="mr-4">
-              <TvIcon />
+                <Icon />
             </div>
-            <p className="text-lg">{item}</p>
-          </div>
+              <p className="text-lg">{title}</p>
+            </Link>
         ))}
       </nav>
       </aside>
