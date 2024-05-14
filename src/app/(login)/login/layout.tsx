@@ -1,8 +1,6 @@
+import { Provider } from "jotai";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-
-import Header from "@/widgets/Header";
-import Sidebar from "@/widgets/Sidebar";
 
 import "@/shared/styles/globals.scss";
 
@@ -18,14 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="dark">
-      <body className={roboto.className}>
-        <div className="mt-16 box-border flex h-[100vh-64px] w-full">
-          <Header />
-          <Sidebar />
+    <Provider>
+      <html lang="ru" className="dark">
+        <body className={roboto.className}>
           <main className="w-full flex-1">{children}</main>
-        </div>
-      </body>
-    </html>
+        </body>
+      </html>
+    </Provider>
+
   );
 }

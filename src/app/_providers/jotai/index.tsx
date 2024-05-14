@@ -1,4 +1,3 @@
-import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 const isSidebarOpen = atomWithStorage("IS_SIDEBAR", true);
