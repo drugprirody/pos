@@ -3,9 +3,9 @@ import { FC } from 'react';
 interface Props { };
 
 const Index: FC<Props> = ({ params }: any) => {
-  console.log(params)
+  console.log('params', params);
   return (
-    <div className="">page</div>
+    <div className="">info tab</div>
   )
 };
 export default Index
