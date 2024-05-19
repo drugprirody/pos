@@ -60,6 +60,8 @@ const config = {
           DEFAULT: "rgb(39, 40, 41)",
           foreground: "rgb(250, 250, 250)",
         },
+        white: "#fff",
+        dark: "#000",
 
         // primary: "rgb(255, 209, 102)",
         // accent: "rgb(255, 225, 156)",

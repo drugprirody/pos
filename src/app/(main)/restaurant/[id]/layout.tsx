@@ -18,20 +18,25 @@ export default function Layout({ children, info, dishes }: Props) {
     sessionStorage.setItem(RESTAURANT_TAB, val)
   }
   return (
-    <div className='mx-auto w-full'>
-      <Tabs defaultValue={isInfoTab} className="w-[400px]" onChange={(e) => console.log(e.target)}>
-        <TabsList>
+    <div className='mx-auto w-full bg-secondary-light dark:bg-secondary-dark h-[calc(100vh-64px)]'>
+      <Tabs className="w-full" defaultValue={isInfoTab} onChange={(e) => console.log(e.target)}>
+        <div className='h-36 border-b border-card-dark/5'>
+          <h1 className='mx-8 text-3xl inline-block mt-4 font-bold'>Информация о заведении</h1>
+          <div className='pb-4 mt-4 pl-8  dark:border-card-light/5'>
+            <TabsList className="min-w-64 w-full h-12 justify-start rounded-none space-x-4">
           {TABS.map(({ title, value }) => (
-            <TabsTrigger key={value} onClick={() => onTabChange(value)} value={value}>{title}</TabsTrigger>
+            <TabsTrigger key={value} onClick={() => onTabChange(value)} value={value} className='px-4 h-12 text-base'>{title}</TabsTrigger>
           ))}
         </TabsList>
-        <TabsContent value="info">{info}</TabsContent>
-        <TabsContent value="dishes">{dishes}</TabsContent>
+          </div>
+        </div>
+        <TabsContent className="mt-0 h-" value="info">{info}</TabsContent>
+        <TabsContent className="mt-0" value="dishes">{dishes}</TabsContent>
       </Tabs>
 
-      <main>
+      {/* <div>
         {children}
-      </main>
+      </div> */}
     </div>
 
   )
