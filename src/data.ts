@@ -1,17 +1,9 @@
-import {
-  AlarmClockCheck,
-  AlarmSmoke,
-  LucideChevronRight,
-  FootprintsIcon,
-  Warehouse,
-} from "lucide-react";
+import { AlarmSmoke, FootprintsIcon, Book } from "lucide-react";
 
 export const NAV_ITEMS = [
   { title: "Клиенты", url: "/", Icon: AlarmSmoke },
   { title: "Продукты", url: "/products", Icon: FootprintsIcon },
-  { title: "Restaurant", url: "/restaurant", Icon: AlarmClockCheck },
-  { title: "Users", url: "/users", Icon: Warehouse },
-  // { title: "additional-2", url: "/additional-2", Icon: LucideChevronRight },
+  { title: "История", url: "/history", Icon: Book },
 ];
 
 export const TABS: Tab[] = [

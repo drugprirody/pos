@@ -1,4 +1,5 @@
-import { FC } from 'react'
+'use client'
+import { FC, useState } from 'react'
 
 import {
   Table,
@@ -8,15 +9,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-  ;
+} from "@/components/ui/table";
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+
+import AddProduct from '@/components/add-product'
 
 interface Props {
 };
 
 const Index: FC<Props> = ({ }) => {
-
+  const [open, setOpen] = useState(false)
   const products = [
     {
       category_id: Math.round(Math.random() * 1000),
@@ -79,7 +82,12 @@ const Index: FC<Props> = ({ }) => {
   ]
   return (
     <section className="container px-24 py-12">
-      <h1 className="text-3xl text-left mb-4">Список пользователей</h1>
+      <h1 className="text-3xl text-left mb-4">Продукты</h1>
+      <div className='w-full flex items-center justify-end h-20'>
+        <Button onClick={() => setOpen(!open)} className='bg-blue-300 text-black hover:bg-blue-400'>Добавить</Button>
+      </div>
+
+
       <Table>
         <TableCaption>A list of your recent customers.</TableCaption>
         <TableHeader>
@@ -105,6 +113,9 @@ const Index: FC<Props> = ({ }) => {
           ))}
         </TableBody>
       </Table>
+      {open && (
+        <AddProduct close={() => setOpen(false)} />
+      )}
     </section>
   )
 };
