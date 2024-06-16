@@ -3,7 +3,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -11,78 +10,107 @@ import {
 
 export default function Home() {
 
-  const invoices = [
+  const customers = [
     {
-      invoice: "INV001",
-      paymentStatus: "Paid",
-      totalAmount: "$250.00",
-      paymentMethod: "Credit Card",
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
     },
     {
-      invoice: "INV002",
-      paymentStatus: "Pending",
-      totalAmount: "$150.00",
-      paymentMethod: "PayPal",
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
     },
     {
-      invoice: "INV003",
-      paymentStatus: "Unpaid",
-      totalAmount: "$350.00",
-      paymentMethod: "Bank Transfer",
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
     },
     {
-      invoice: "INV004",
-      paymentStatus: "Paid",
-      totalAmount: "$450.00",
-      paymentMethod: "Credit Card",
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
     },
     {
-      invoice: "INV005",
-      paymentStatus: "Paid",
-      totalAmount: "$550.00",
-      paymentMethod: "PayPal",
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
     },
     {
-      invoice: "INV006",
-      paymentStatus: "Pending",
-      totalAmount: "$200.00",
-      paymentMethod: "Bank Transfer",
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
+    },
+
+    {
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
     },
     {
-      invoice: "INV007",
-      paymentStatus: "Unpaid",
-      totalAmount: "$300.00",
-      paymentMethod: "Credit Card",
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
     },
+    {
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
+    },
+    {
+      firstname: "INV001",
+      phone_number: "+99364758494",
+      address: "Himik 33/24",
+      balance: "800",
+      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
+    },
+
   ]
   return (
-    <section className="flex w-full  flex-col items-center justify-between px-24 py-12">
+    <section className="container px-24 py-12">
+      <h1 className="text-3xl text-left mb-4">
+        Список пользователей
+      </h1>
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableCaption>A list of your recent customers.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="w-[100px]">Имя</TableHead>
+            <TableHead className="w-[100px]">Телефон</TableHead>
+            <TableHead>Баланс</TableHead>
+            <TableHead>Адрес</TableHead>
+            <TableHead>Коментарий</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+          {customers.map((invoice) => (
+            <TableRow key={Math.random()}>
+              <TableCell className="font-medium">{invoice.firstname}</TableCell>
+              <TableCell className="font-medium">{invoice.phone_number}</TableCell>
+              <TableCell>{invoice.balance}</TableCell>
+              <TableCell className="w-32">{invoice.address}</TableCell>
+              <TableCell className="">{invoice.comment}</TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
     </section>
   );
