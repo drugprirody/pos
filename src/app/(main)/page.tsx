@@ -1,25 +1,89 @@
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 export default function Home() {
+
+  const invoices = [
+    {
+      invoice: "INV001",
+      paymentStatus: "Paid",
+      totalAmount: "$250.00",
+      paymentMethod: "Credit Card",
+    },
+    {
+      invoice: "INV002",
+      paymentStatus: "Pending",
+      totalAmount: "$150.00",
+      paymentMethod: "PayPal",
+    },
+    {
+      invoice: "INV003",
+      paymentStatus: "Unpaid",
+      totalAmount: "$350.00",
+      paymentMethod: "Bank Transfer",
+    },
+    {
+      invoice: "INV004",
+      paymentStatus: "Paid",
+      totalAmount: "$450.00",
+      paymentMethod: "Credit Card",
+    },
+    {
+      invoice: "INV005",
+      paymentStatus: "Paid",
+      totalAmount: "$550.00",
+      paymentMethod: "PayPal",
+    },
+    {
+      invoice: "INV006",
+      paymentStatus: "Pending",
+      totalAmount: "$200.00",
+      paymentMethod: "Bank Transfer",
+    },
+    {
+      invoice: "INV007",
+      paymentStatus: "Unpaid",
+      totalAmount: "$300.00",
+      paymentMethod: "Credit Card",
+    },
+  ]
   return (
     <section className="flex w-full  flex-col items-center justify-between px-24 py-12">
-
-      voluptatem officia dolores voluptatibus magni dolore laborum, quidem ullam
-      necessitatibus! Nesciunt exercitationem ex commodi at quibusdam, dolorem
-      eos deleniti minima harum eius autem quos facilis. Fugit nisi obcaecati
-      quae accusantium qui nobis nihil amet. Aliquid laudantium eveniet
-      excepturi enim consectetur nobis similique sapiente et porro esse, quis
-      placeat? Eos autem facere excepturi error, possimus ad expedita, unde eum
-      quo maiores, tenetur aspernatur voluptatum totam. Incidunt fugiat minima
-      fugit a eaque sint eius! Doloribus laborum, cupiditate, vero nostrum
-      quaerat earum ea voluptatibus, esse nemo quod quidem? Suscipit illum
-      labore ipsum at laborum incidunt alias necessitatibus sint et earum
-      debitis perspiciatis voluptatibus, autem cum nostrum quod. Optio maiores a
-      omnis soluta recusandae perferendis tempora itaque. Nisi, aut eum! Magni
-      molestiae, vero dolor fugiat at praesentium, nesciunt unde dignissimos
-      tempora expedita doloribus, alias a accusantium sunt non ut deleniti.
-      Soluta ratione, totam quas laboriosam consectetur impedit voluptates
-      facere beatae sed ex velit sunt quam molestias in voluptatibus odio fugit,
-      assumenda eum esse adipisci qui incidunt. Illo, voluptates modi? Saepe, ea
-      minus.
+      <Table>
+        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Invoice</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Method</TableHead>
+            <TableHead className="text-right">Amount</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {invoices.map((invoice) => (
+            <TableRow key={invoice.invoice}>
+              <TableCell className="font-medium">{invoice.invoice}</TableCell>
+              <TableCell>{invoice.paymentStatus}</TableCell>
+              <TableCell>{invoice.paymentMethod}</TableCell>
+              <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={3}>Total</TableCell>
+            <TableCell className="text-right">$2,500.00</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
     </section>
   );
 }

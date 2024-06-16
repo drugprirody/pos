@@ -29,13 +29,13 @@ const Index: FC<Props> = ({ params }: any) => {
           <Banner classes="mb-6" />
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className='p-6 border border-dark/10 dark:border-white/10 rounded-lg text-card-light-foreground dark:text-dark-light-foreground space-y-6 text-sm font-medium'>
+              <div className='p-6 border border-dark/10  rounded-lg text-card-light-foreground  space-y-6 text-sm font-medium'>
                 <FormField
                   control={form.control}
                   name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-dark dark:text-white'>Название заведения</FormLabel>
+                      <FormLabel className='text-dark'>Название заведения</FormLabel>
                       <FormControl>
                         <Input placeholder="Title..." {...field} />
                       </FormControl>
@@ -50,7 +50,7 @@ const Index: FC<Props> = ({ params }: any) => {
                       name="address"
                       render={({ field }) => (
                         <FormItem className='flex-1'>
-                          <FormLabel className='text-dark dark:text-white'>Адрес</FormLabel>
+                          <FormLabel className='text-dark'>Адрес</FormLabel>
                           <FormControl>
                             <Input placeholder="Address..." {...field} />
                           </FormControl>
@@ -67,7 +67,7 @@ const Index: FC<Props> = ({ params }: any) => {
                       name="workTime.from"
                       render={({ field }) => (
                         <FormItem className='flex-1'>
-                          <FormLabel className='text-dark dark:text-white'>Режим работы</FormLabel>
+                          <FormLabel className='text-dark'>Режим работы</FormLabel>
                           <FormControl>
                             <Select>
                               <SelectTrigger>
@@ -114,7 +114,7 @@ const Index: FC<Props> = ({ params }: any) => {
                     name="deliveryTime"
                     render={({ field }) => (
                       <FormItem className='flex-1'>
-                        <FormLabel className='text-dark dark:text-white'>Время доставки</FormLabel>
+                        <FormLabel className='text-dark '>Время доставки</FormLabel>
                         <FormControl>
                           <Select>
                             <SelectTrigger>
@@ -137,7 +137,7 @@ const Index: FC<Props> = ({ params }: any) => {
                     name="deliveryTime"
                     render={({ field }) => (
                       <FormItem className='flex-1'>
-                        <FormLabel className='text-dark dark:text-white'>Время доставки</FormLabel>
+                        <FormLabel className='text-dark '>Время доставки</FormLabel>
                         <FormControl>
                           <Select>
                             <SelectTrigger>
@@ -156,7 +156,7 @@ const Index: FC<Props> = ({ params }: any) => {
                   />
                 </div>
 
-                <Button type="submit" className='bg-primary-light dark:bg-primary-dark text-primary-light-foreground dark:text-primary-dark-foreground hover:bg-primary-dark dark:hover:bg-primary-light'>Сохранить</Button>
+                <Button type="submit" className='bg-primary-light darkk:bg-primary-dark text-primary-light-foreground darkk:text-primary-dark-foreground hover:bg-primary-dark darkk:hover:bg-primary-light'>Сохранить</Button>
               </div>
             </form>
           </Form>

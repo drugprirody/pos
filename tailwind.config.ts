@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 const config = {
-  darkMode: "class",
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -23,7 +22,7 @@ const config = {
       colors: {
         bg: {
           light: "rgb(255, 255, 255)",
-          dark: "rgb(12, 9, 9)",
+          darkk: "rgb(12, 9, 9)",
         },
         "bg-cover": "rgb(0,0,0,0.5)",
 
@@ -39,7 +38,7 @@ const config = {
 
         text: {
           light: "rgb(9, 9, 10)",
-          dark: "rgb(242, 242, 242)",
+          darkk: "rgb(242, 242, 242)",
         },
 
         "primary-light": {
@@ -61,7 +60,7 @@ const config = {
           foreground: "rgb(250, 250, 250)",
         },
         white: "#fff",
-        dark: "#000",
+        darkk: "#000",
 
         // primary: "rgb(255, 209, 102)",
         // accent: "rgb(255, 225, 156)",

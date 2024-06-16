@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <Provider>
-      <html lang="ru" className="dark">
+      <html lang="ru" >
         <body className={roboto.className}>
           <div className="mt-16 box-border flex h-[100vh-64px] w-full">
             <Header />

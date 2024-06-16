@@ -18,7 +18,7 @@ const Index: FC<Props> = ({}) => {
   return (
     <>
       <aside
-        className={`flex h-[calc(100vh-64px)] flex-col overflow-hidden border-r bg-secondary-light dark:bg-secondary-dark border-bg-dark/10 dark:border-bg-light/10 fixed top-16  ${isSidebarOpen ? 'translate-x-[0] w-[240px]' : "w-0 translate-x-[-100%]"}`}
+        className={`flex h-[calc(100vh-64px)] flex-col overflow-hidden border-r bg-secondary-light darkk:bg-secondary-dark border-bg-dark/10 darkk:border-bg-light/10 fixed top-16  ${isSidebarOpen ? 'translate-x-[0] w-[240px]' : "w-0 translate-x-[-100%]"}`}
       >
 
         <div className="mb-2 p-4">
@@ -30,7 +30,7 @@ const Index: FC<Props> = ({}) => {
               key={title}
               href={url}
               role="button"
-              className={`flex w-full items-center rounded-lg px-3 py-2 leading-tight dark:text-gray-50 ${url === pathname && 'bg-primary-light dark:bg-primary-dark text-primary-light-foreground dark:text-primary-dark-foreground'}`}
+              className={`flex w-full items-center rounded-lg px-3 py-2 leading-tight darkk:text-gray-50 ${url === pathname && 'bg-primary-light darkk:bg-primary-dark text-primary-light-foreground darkk:text-primary-dark-foreground'}`}
           >
             <div className="mr-4">
                 <Icon />
