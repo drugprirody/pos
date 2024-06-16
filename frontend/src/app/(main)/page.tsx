@@ -22,7 +22,7 @@ export default function Home() {
         // params: {} //query
         // data: {} //data
       })
-
+      console.log('data',data)
       if (data) {
         setCust(data)
       }
@@ -31,80 +31,8 @@ export default function Home() {
     }
   }
 
-  const customers = [
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-    {
-      firstname: "INV001",
-      phone_number: "+99364758494",
-      address: "Himik 33/24",
-      balance: "800",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus laborum adipisci commodi assumenda sit quas? Laborum quibusdam iste reprehenderit eum."
-    },
-
-  ]
+  // const customers = [
+  // ]
 
   useEffect(() => {
     fetchData()
@@ -119,6 +47,7 @@ export default function Home() {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Имя</TableHead>
+            <TableHead className="w-[100px]">Фамилия</TableHead>
             <TableHead className="w-[100px]">Телефон</TableHead>
             <TableHead>Баланс</TableHead>
             <TableHead>Адрес</TableHead>
@@ -126,13 +55,14 @@ export default function Home() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {customers.map((cust) => (
+          {cust?.map((c: any) => (
             <TableRow key={Math.random()}>
-              <TableCell className="font-medium">{cust.firstname}</TableCell>
-              <TableCell className="font-medium">{cust.phone_number}</TableCell>
-              <TableCell>{cust.balance}</TableCell>
-              <TableCell className="w-32">{cust.address}</TableCell>
-              <TableCell className="line-clamp-3">{cust.comment}</TableCell>
+              <TableCell className="font-medium">{c.firstname}</TableCell>
+              <TableCell className="font-medium">{c.lastname}</TableCell>
+              <TableCell className="font-medium">{c.phone_number}</TableCell>
+              <TableCell>{c.balance}</TableCell>
+              <TableCell className="w-32">{c.address}</TableCell>
+              <TableCell className="line-clamp-3">{c.comment}</TableCell>
             </TableRow>
           ))}
         </TableBody>

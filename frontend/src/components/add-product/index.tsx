@@ -23,8 +23,11 @@ const initState: Form = {
 const Index: FC<Props> = ({ close }) => {
 
   const [form, setForm] = useState(initState)
+
   const handleSubmit = (e: any) => {
     e.preventDefault()
+    //submit here
+    console.log('submit')
   }
 
   useEffect(() => {
@@ -38,8 +41,8 @@ const Index: FC<Props> = ({ close }) => {
           <button onClick={close} className='absolute top-2.5 right-2.5'><X /></button>
 
           <div className='flex gap-4'>
-            <Input onChange={(e) => setForm(prev => ({ ...prev, "name": e.target.value }))} placeholder='name' />
-            <Input onChange={(e) => setForm(prev => ({ ...prev, "retail_price": e.target.value }))} placeholder='name' />
+            <Input onChange={(e) => setForm(prev => ({ ...prev, "name": e.target.value }))} placeholder='Name' />
+            <Input onChange={(e) => setForm(prev => ({ ...prev, "retail_price": e.target.value }))} placeholder='Retail price' />
           </div>
 
           <input onChange={(e) => setForm(prev => ({ ...prev, "photo": e.target.files![0] }))} type="file" className='file:bg-blue-400 file:text-white' />
@@ -47,7 +50,7 @@ const Index: FC<Props> = ({ close }) => {
         </div>
         <div className='flex justify-end mt-3'>
 
-          <Button className='bg-stone-700 text-white'>Submit</Button>
+          <Button type='submit' className='bg-stone-700 text-white'>Submit</Button>
         </div>
       </form>
     </div>
