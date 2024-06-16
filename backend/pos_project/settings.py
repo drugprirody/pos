@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'customers',
     'rest_framework',
     'corsheaders',
+    'categories',
+    'apis',
 ]
 
 MIDDLEWARE = [
@@ -71,7 +73,9 @@ TEMPLATES = [
         },
     },
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5500",
+]
 WSGI_APPLICATION = 'pos_project.wsgi.application'
 
 
