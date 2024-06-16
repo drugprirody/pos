@@ -1,3 +1,4 @@
+'use client'
 import {
   Table,
   TableBody,
@@ -8,7 +9,27 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import axios from '@/api/axiosMiddleware'
+import { useEffect, useState } from "react"
+
 export default function Home() {
+  const [cust, setCust] = useState<any>()
+  const fetchData = async () => {
+
+    try {
+      const { data } = await axios({
+        url: '/customers',
+        // params: {} //query
+        // data: {} //data
+      })
+
+      if (data) {
+        setCust(data)
+      }
+    } catch (err: any) {
+      console.log('err', err)
+    }
+  }
 
   const customers = [
     {
@@ -84,6 +105,10 @@ export default function Home() {
     },
 
   ]
+
+  useEffect(() => {
+    fetchData()
+  }, [])
   return (
     <section className="container px-24 py-12">
       <h1 className="text-3xl text-left mb-4">
@@ -101,13 +126,13 @@ export default function Home() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {customers.map((invoice) => (
+          {customers.map((cust) => (
             <TableRow key={Math.random()}>
-              <TableCell className="font-medium">{invoice.firstname}</TableCell>
-              <TableCell className="font-medium">{invoice.phone_number}</TableCell>
-              <TableCell>{invoice.balance}</TableCell>
-              <TableCell className="w-32">{invoice.address}</TableCell>
-              <TableCell className="">{invoice.comment}</TableCell>
+              <TableCell className="font-medium">{cust.firstname}</TableCell>
+              <TableCell className="font-medium">{cust.phone_number}</TableCell>
+              <TableCell>{cust.balance}</TableCell>
+              <TableCell className="w-32">{cust.address}</TableCell>
+              <TableCell className="line-clamp-3">{cust.comment}</TableCell>
             </TableRow>
           ))}
         </TableBody>
