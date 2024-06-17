@@ -37,9 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'customers',
+    'rest_framework',
+    'corsheaders',
+    'categories',
+    'apis',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Добавлено для поддержки CORS
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,7 +73,9 @@ TEMPLATES = [
         },
     },
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5500",
+]
 WSGI_APPLICATION = 'pos_project.wsgi.application'
 
 
