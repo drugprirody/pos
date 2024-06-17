@@ -7,20 +7,22 @@ sudo apt-get update -y
 sudo apt-get install python3 -y 
 python3 -m venv venv
 source venv/bin/activate
-cd backend
 pip3 install -r backend/requirements.txt
 ```
 
 ### Up migrations
 
-В каталоге backend:
+
 ```bash 
+cd backend
 python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py makemigrations categories
 python3 manage.py migrate categories
 python3 manage.py makemigrations customers
 python3 manage.py migrate customers
+python3 manage.py makemigrations suppliers
+ python3 manage.py migrate suppliers
 ```
 ### Run server
  В каталоге backend:
