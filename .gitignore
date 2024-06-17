@@ -1,4 +1,54 @@
-backend/db.sqlite3
-__pycache__
-migrations
-venv
+# Игнорируем базовые файлы и директории Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.sqlite3
+
+# Игнорируем виртуальное окружение
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Игнорируем системные файлы
+.DS_Store
+Thumbs.db
+
+# Игнорируем файлы конфигурации редакторов и IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Игнорируем логи и временные файлы
+*.log
+*.pot
+*.mo
+*.swp
+*.swo
+*.bak
+*.tmp
+*.temp
+*.orig
+
+# Игнорируем настройки и пароли
+.env
+*.env
+
+# Игнорируем статику, собранную с помощью collectstatic
+/staticfiles/
+/static/
+
+# Игнорируем медиа-файлы (если они не загружаются пользователями)
+media/
+mediafiles/
+
+# Игнорируем файлы базы данных
+*.sqlite3
+db.sqlite3
+
+# Игнорируем файлы миграций (опционально)
+**/migrations/*
+!**/migrations/__init__.py

@@ -17,6 +17,10 @@ pip3 install -r backend/requirements.txt
 ```bash 
 python3 manage.py makemigrations
 python3 manage.py migrate
+python3 manage.py makemigrations categories
+python3 manage.py migrate categories
+python3 manage.py makemigrations customers
+python3 manage.py migrate customers
 ```
 ### Run server
  В каталоге backend:
