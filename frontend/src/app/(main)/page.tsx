@@ -22,7 +22,6 @@ export default function Home() {
         // params: {} //query
         // data: {} //data
       })
-      console.log('data',data)
       if (data) {
         setCust(data)
       }
