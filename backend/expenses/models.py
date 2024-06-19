@@ -1,6 +1,6 @@
 from django.db import models
 
-class ExpensesType(models.Model):
+class ExpenseType(models.Model):
     name = models.CharField(max_length=50)
     comment = models.TextField(blank=True)
 
@@ -8,7 +8,8 @@ class ExpensesType(models.Model):
         return self.name
 
 
-class Expenses(models.Model):
-    expence_type_id = models.ForeignKey(ExpensesType, on_delete=models.CASCADE)
+class Expense(models.Model):
+    expence_type_id = models.ForeignKey(ExpenseType,  on_delete=models.CASCADE)
     total = models.IntegerField()
     comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)

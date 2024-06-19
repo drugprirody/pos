@@ -7,3 +7,4 @@ class Supplier(models.Model):
     contact_person_name = models.CharField(max_length=50) # Myratgeli Akaltynow
     contact_phone = models.CharField(max_length=12) # +99365582928
     comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
