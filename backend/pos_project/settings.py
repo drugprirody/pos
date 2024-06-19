@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'categories',
     'apis',
     'suppliers',
+    'expenses',
 ]
 
 MIDDLEWARE = [
