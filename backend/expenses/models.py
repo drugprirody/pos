@@ -11,5 +11,6 @@ class ExpenseType(models.Model):
 class Expense(models.Model):
     expence_type_id = models.ForeignKey(ExpenseType,  on_delete=models.CASCADE)
     total = models.IntegerField()
+    payed = models.IntegerField()
     comment = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
