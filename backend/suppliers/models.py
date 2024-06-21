@@ -8,3 +8,7 @@ class Supplier(models.Model):
     contact_phone = models.CharField(max_length=12) # +99365582928
     comment = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.company_name
