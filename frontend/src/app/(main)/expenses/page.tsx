@@ -37,8 +37,8 @@ const sampleArray = [
 
 interface Category {
   id: number;
-  expence_type_id: number;
-  expence_type_name: string;
+  expense_type: number;
+  expense_type_name: string;
   total: number;
   payed: number;
   comment: string;
@@ -46,14 +46,14 @@ interface Category {
 }
 
 type Form = {
-  expence_type_id: number | null;
+  expense_type: number | null;
   total: number;
   payed: number;
   comment: string;
 }
 
 const initState = {
-  expence_type_id: null,
+  expense_type: null,
   total: 0,
   payed:0,
   comment: ''
@@ -159,7 +159,7 @@ const Index: FC = () => {
           {expenses.map((exp) => (
             <TableRow key={exp.id}>
               <TableCell className="font-medium">{exp.id}</TableCell>
-              <TableCell className="font-medium">{exp.expence_type_name}</TableCell>
+              <TableCell className="font-medium">{exp.expense_type_name}</TableCell>
               <TableCell className="font-medium">{exp.total}</TableCell>
               <TableCell className="font-medium">{exp.payed}</TableCell>
               <TableCell className="font-medium">{exp.created_at}</TableCell>
@@ -181,7 +181,7 @@ const Index: FC = () => {
                 <Input value={form.comment} onChange={(e) => setForm(prev => ({ ...prev, "comment": e.target.value }))} placeholder='Комментарий' />
               </div>
 
-              <Select onValueChange={(val) => setForm(prev => ({ ...prev, "expence_type_id": Number(val) }))}>
+              <Select onValueChange={(val) => setForm(prev => ({ ...prev, "expense_type_id": Number(val) }))}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Выберите категорию" />
                 </SelectTrigger>
