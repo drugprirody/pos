@@ -26,7 +26,7 @@ const Index: FC = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios({
-        url: '/suppliers',
+        url: '/products/suppliers',
         // params: {} // query
         // data: {} // data
       })

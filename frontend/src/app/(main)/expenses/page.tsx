@@ -149,8 +149,7 @@ const Index: FC = () => {
           <TableRow>
             <TableHead >ID</TableHead>
             <TableHead >Категория</TableHead>
-            <TableHead >Полная сумма</TableHead>
-            <TableHead >Оплаченная сумма</TableHead>
+            <TableHead >Сумма</TableHead>
             <TableHead>Дата создание</TableHead>
             <TableHead>Комментарий</TableHead>
           </TableRow>
@@ -161,7 +160,6 @@ const Index: FC = () => {
               <TableCell className="font-medium">{exp.id}</TableCell>
               <TableCell className="font-medium">{exp.expense_type_name}</TableCell>
               <TableCell className="font-medium">{exp.total}</TableCell>
-              <TableCell className="font-medium">{exp.payed}</TableCell>
               <TableCell className="font-medium">{exp.created_at}</TableCell>
               <TableCell className="font-medium">{exp.comment}</TableCell>
             </TableRow>
