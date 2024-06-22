@@ -24,7 +24,7 @@ const Index: FC = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios({
-        url: '/categories',
+        url: '/products/categories',
         // params: {} // query
         // data: {} // data
       })
@@ -55,9 +55,9 @@ const Index: FC = () => {
             <TableHead className="">ID</TableHead>
             <TableHead className="">Имя</TableHead>
             <TableHead className="">Комментарий</TableHead>
-            <TableHead>Кол-во вида продуктов</TableHead>
+            {/* <TableHead>Кол-во вида продуктов</TableHead>
             <TableHead>Общее кол-во продуктов</TableHead>
-            <TableHead>Сумма стоимости всех продуктов</TableHead>
+            <TableHead>Сумма стоимости всех продуктов</TableHead> */}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -66,9 +66,9 @@ const Index: FC = () => {
               <TableCell className="font-medium">{cat.id}</TableCell>
               <TableCell className="font-medium">{cat.name}</TableCell>
               <TableCell className="font-medium">{cat.comment}</TableCell>
-              <TableCell>0</TableCell> {/* Предположим, что эти данные пока отсутствуют */}
-              <TableCell className="w-32">0</TableCell> {/* Предположим, что эти данные пока отсутствуют */}
-              <TableCell className="w-32">0</TableCell> {/* Предположим, что эти данные пока отсутствуют */}
+              {/* <TableCell>0</TableCell> Предположим, что эти данные пока отсутствуют
+              <TableCell className="w-32">0</TableCell> 
+              <TableCell className="w-32">0</TableCell> Предположим, что эти данные пока отсутствуют */}
             </TableRow>
           ))}
         </TableBody>
