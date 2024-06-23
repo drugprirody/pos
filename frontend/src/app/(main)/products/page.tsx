@@ -1,6 +1,20 @@
 'use client'
-import { FC, useState } from 'react'
-
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { FC, useEffect, useState } from 'react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import {
   Table,
   TableBody,
@@ -9,114 +23,184 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import Image from 'next/image';
+} from "@/components/ui/table"
+import axios from '@/api/axiosMiddleware'
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 
-import AddProduct from '@/components/add-product'
+const sampleArray = [
+  { id: 1, value: 'one' },
+  { id: 2, value: 'two' },
+  { id: 3, value: 'three' },
+]
 
-interface Props {
-};
+interface Category {
+  id: number;
+  expense_type: number;
+  expense_type_name: string;
+  total: number;
+  payed: number;
+  comment: string;
+  created_at: string;
+}
 
-const Index: FC<Props> = ({ }) => {
-  const [open, setOpen] = useState(false)
-  const products = [
-    {
-      category_id: Math.round(Math.random() * 1000),
-      name: 'Cheese',
-      photo: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=1173",
-      stock_quantity: "20",
-      retail_price: "300"
-    },
-    {
-      category_id: Math.round(Math.random() * 1000),
-      name: 'Cheese',
-      photo: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=1173",
-      stock_quantity: "20",
-      retail_price: "300"
-    },
-    {
-      category_id: Math.round(Math.random() * 1000),
-      name: 'Cheese',
-      photo: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=1173",
-      stock_quantity: "20",
-      retail_price: "300"
-    },
-    {
-      category_id: Math.round(Math.random() * 1000),
-      name: 'Cheese',
-      photo: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=1173",
-      stock_quantity: "20",
-      retail_price: "300"
-    },
-    {
-      category_id: Math.round(Math.random() * 1000),
-      name: 'Cheese',
-      photo: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=1173",
-      stock_quantity: "20",
-      retail_price: "300"
-    },
+type Form = {
+  expense_type: number | null;
+  total: number;
+  payed: number;
+  comment: string;
+}
 
-    {
-      category_id: Math.round(Math.random() * 1000),
-      name: 'Cheese',
-      photo: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=1173",
-      stock_quantity: "20",
-      retail_price: "300"
-    },
-    {
-      category_id: Math.round(Math.random() * 1000),
-      name: 'Cheese',
-      photo: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=1173",
-      stock_quantity: "20",
-      retail_price: "300"
-    },
-    {
-      category_id: Math.round(Math.random() * 1000),
-      name: 'Cheese',
-      photo: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=1173",
-      stock_quantity: "20",
-      retail_price: "300"
-    },
+const initState = {
+  expense_type: null,
+  total: 0,
+  payed:0,
+  comment: ''
+}
 
-  ]
+const Index: FC = () => {
+  const [expenses, setCategory] = useState<Category[]>([]); // Инициализация как пустой массив
+  const [form, setForm] = useState<Form>(initState)
+
+  const [openModal, setOpenModal] = useState(false)
+
+
+  const fetchData = async () => {
+    try {
+      const { data } = await axios({
+        url: '/expenses',
+        // params: {} // query
+        // data: {} // datasdasdasd
+      })
+      console.log('data', data)
+      if (Array.isArray(data)) { // Убедитесь, что data является массивом
+        setCategory(data)
+      } else {
+        console.error('Data is not an array:', data)
+      }
+    } catch (err: any) {
+      console.log('err', err)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    try {
+      const data = JSON.stringify(form)
+      await axios({
+        url: '/expenses/',
+        method: 'POST',
+        data
+      })
+    } catch (err: any) {
+      console.log('exspence error', err)
+    }
+  }
+
   return (
+
     <section className="container px-24 py-12">
-      <h1 className="text-3xl text-left mb-4">Продукты</h1>
-      <div className='w-full flex items-center justify-end h-20'>
-        <Button onClick={() => setOpen(!open)} className='bg-blue-300 text-black hover:bg-blue-400'>Добавить</Button>
+      {/* <h1 className="text-3xl text-left mb-4">Расходы</h1> */}
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+        <Card
+          className="sm:col-span-1 " x-chunk="dashboard-05-chunk-0"
+        >
+          <CardHeader className="pb-2">
+            <CardTitle>Ваши расходы</CardTitle>
+
+          </CardHeader>
+          <br />
+          <CardFooter>
+          <Button onClick={() => setOpenModal(!openModal)} >Добавить</Button>
+          </CardFooter>
+        </Card>
+        <Card x-chunk="dashboard-05-chunk-1">
+          <CardHeader className="pb-2">
+            <CardDescription>Общий долг</CardDescription>
+            <CardTitle className="text-4xl">1,329 TMT</CardTitle>
+          </CardHeader>
+
+        </Card>
+        <Card x-chunk="dashboard-05-chunk-2">
+          <CardHeader className="pb-2">
+            <CardDescription>Выплаченные</CardDescription>
+            <CardTitle className="text-4xl">5,329 TMT</CardTitle>
+          </CardHeader>
+
+        </Card>
+
+        <Card x-chunk="dashboard-05-chunk-2">
+          <CardHeader className="pb-2">
+            <CardDescription>Общий расход</CardDescription>
+            <CardTitle className="text-4xl">7,329 TMT</CardTitle>
+          </CardHeader>
+
+        </Card>
       </div>
 
-
       <Table>
-        <TableCaption>A list of your recent customers.</TableCaption>
+        <TableCaption>Список расходов</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="">ID</TableHead>
-            <TableHead className="">Название</TableHead>
-            <TableHead className=" w-[220px]">Изображение</TableHead>
-            <TableHead>Остаток</TableHead>
-            <TableHead>Цена</TableHead>
+            <TableHead >ID</TableHead>
+            <TableHead >Категория</TableHead>
+            <TableHead >Сумма</TableHead>
+            <TableHead>Дата создание</TableHead>
+            <TableHead>Комментарий</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.map((invoice) => (
-            <TableRow key={Math.random()}>
-              <TableCell className="font-medium">{invoice.category_id}</TableCell>
-              <TableCell className=" font-medium">{invoice.name}</TableCell>
-              <TableCell className="font-medium ">
-                <Image src={invoice.photo} width={120} height={60} className='rounded-md object-cover' alt={invoice.name} />
-              </TableCell>
-              <TableCell >{invoice.stock_quantity}</TableCell>
-              <TableCell className="w-32">{invoice.retail_price}</TableCell>
+          {expenses.map((exp) => (
+            <TableRow key={exp.id}>
+              <TableCell className="font-medium">{exp.id}</TableCell>
+              <TableCell className="font-medium">{exp.expense_type_name}</TableCell>
+              <TableCell className="font-medium">{exp.total}</TableCell>
+              <TableCell className="font-medium">{exp.created_at}</TableCell>
+              <TableCell className="font-medium">{exp.comment}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      {open && (
-        <AddProduct close={() => setOpen(false)} />
+      {openModal && (
+        <div className='w-screen h-screen fixed top-0 left-0 z-40 bg-black/50 flex items-center justify-center'>
+          <form className="px-10 py-8 relative bg-blue-300 rounded-md" onSubmit={handleSubmit}>
+            <h2 className='text-xl mb-3'>Добавить продукт</h2>
+            <div className='flex flex-col gap-4'>
+              <button type="button" onClick={() => setOpenModal(!openModal)} className='absolute top-2.5 right-2.5'><X /></button>
+
+              <div className='flex gap-4'>
+                <Input value={form.total} type="number" onChange={(e) => setForm(prev => ({ ...prev, "total": Number(e.target.value) }))} placeholder='Полная сумма' />
+                <Input value={form.payed} type="number" onChange={(e) => setForm(prev => ({ ...prev, "payed": Number(e.target.value) }))} placeholder='Оплаченная сумма' />
+                <Input value={form.comment} onChange={(e) => setForm(prev => ({ ...prev, "comment": e.target.value }))} placeholder='Комментарий' />
+              </div>
+
+              <Select onValueChange={(val) => setForm(prev => ({ ...prev, "expense_type_id": Number(val) }))}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Выберите категорию" />
+                </SelectTrigger>
+                <SelectContent>
+                  {sampleArray.map(item => (
+                    <SelectItem key={item.id} value={String(item.id)}>{item.value}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+            </div>
+            <div className='flex justify-end mt-3'>
+
+              <Button type='submit' className='bg-stone-700 text-white'>Submit</Button>
+            </div>
+          </form>
+        </div>
+
       )}
     </section>
   )
-};
+}
+
 export default Index
