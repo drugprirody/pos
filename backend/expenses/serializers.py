@@ -1,19 +1,19 @@
 from rest_framework import serializers
-from .models import Expenses, ExpensesType
+from .models import Expense, ExpenseCategories
 
 
 class ExpensesTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ExpensesType
+        model = ExpenseCategories
         fields = '__all__'
 
 
-class ExpensesSerializer(serializers.ModelSerializer):
+class ExpenseSerializer(serializers.ModelSerializer):
     expense_type_name = serializers.SerializerMethodField()  
 
     def get_expense_type_name(self, obj):
         return obj.expense_type.name  
 
     class Meta:
-        model = Expenses
+        model = Expense
         fields = '__all__' 

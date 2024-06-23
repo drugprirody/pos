@@ -10,7 +10,7 @@ class Supplier(models.Model):
         return self.company_name
 
 
-class Category(models.Model):
+class ProductCategories(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
 
@@ -19,7 +19,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(ProductCategories, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     stock_quantity = models.IntegerField(default=0)
     retail_price = models.DecimalField(max_digits=10, decimal_places=2)
