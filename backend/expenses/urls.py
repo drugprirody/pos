@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import ExpenseViewSet, ExpenseCategoriesViewSet, TotalExpenseLastNDays  # Assuming views.py is in the same directory
 
 router = DefaultRouter()
-router.register(r'category', ExpenseCategoriesViewSet)  # Endpoint for expense types
+router.register(r'categories', ExpenseCategoriesViewSet)  # Endpoint for expense types
 router.register(r'', ExpenseViewSet)  # Explicit endpoint for expenses
 
 urlpatterns = [
