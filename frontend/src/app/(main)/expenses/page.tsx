@@ -29,11 +29,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 
-// const sampleArray = [
-//   { id: 1, value: 'one' },
-//   { id: 2, value: 'two' },
-//   { id: 3, value: 'three' },
-// ]
+
 
 interface Expense {
   id: number;
@@ -45,7 +41,7 @@ interface Expense {
   created_at: string;
 }
 
-interface Types {
+interface Category {
   id: number;
   name: string
 }
@@ -67,19 +63,19 @@ const initState = {
 const Index: FC = () => {
   const [expenses, setExpense] = useState<Expense[]>([]); // Инициализация как пустой массив
   const [form, setForm] = useState<Form>(initState)
-  const [types, setTypes] = useState<Types[]>([]); 
+  const [types, setCategory] = useState<Category[]>([]); 
   const [openModal, setOpenModal] = useState(false)
 
-  const fetchTypes = async () => {
+  const fetchCategory = async () => {
     try {
       const { data } = await axios({
-        url: '/expenses/type',
+        url: '/expenses/category',
         // params: {} // query
         // data: {} // datasdasdasd
       })
       console.log('data', data)
       if (Array.isArray(data)) { // Убедитесь, что data является массивом
-        setTypes(data)
+        setCategory(data)
       } else {
         console.error('Data is not an array:', data)
       }
@@ -93,11 +89,10 @@ const Index: FC = () => {
     try {
       const { data } = await axios({
         url: '/expenses',
-        // params: {} // query
-        // data: {} // datasdasdasd
+
       })
       console.log('data', data)
-      if (Array.isArray(data)) { // Убедитесь, что data является массивом
+      if (Array.isArray(data)) { 
         setExpense(data)
       } else {
         console.error('Data is not an array:', data)
@@ -113,7 +108,7 @@ const Index: FC = () => {
 
   useEffect(() => {
     if (openModal) {
-      fetchTypes(); // Вызываем fetchTypes при открытии модального окна
+      fetchCategory(); // Вызываем fetchTypes при открытии модального окна
     }
   }, [openModal]);
 
