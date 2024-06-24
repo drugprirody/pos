@@ -9,10 +9,10 @@ class ExpensesTypeSerializer(serializers.ModelSerializer):
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
-    expense_type_name = serializers.SerializerMethodField()  
+    expense_category_name = serializers.SerializerMethodField()  
 
-    def get_expense_type_name(self, obj):
-        return obj.expense_type.name  
+    def get_expense_category_name(self, obj):
+        return obj.expense_category.name  
 
     class Meta:
         model = Expense

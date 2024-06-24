@@ -12,6 +12,7 @@ class SupplierSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
+    # product_typ_name = 
     class Meta:
         model = Product
         fields = '__all__'

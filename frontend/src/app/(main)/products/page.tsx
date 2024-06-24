@@ -29,13 +29,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 
-const sampleArray = [
-  { id: 1, value: 'one' },
-  { id: 2, value: 'two' },
-  { id: 3, value: 'three' },
-]
 
-interface Category {
+
+interface Expense {
   id: number;
   expense_type: number;
   expense_type_name: string;
@@ -43,6 +39,11 @@ interface Category {
   payed: number;
   comment: string;
   created_at: string;
+}
+
+interface Category {
+  id: number;
+  name: string
 }
 
 type Form = {
@@ -60,16 +61,15 @@ const initState = {
 }
 
 const Index: FC = () => {
-  const [expenses, setCategory] = useState<Category[]>([]); // Инициализация как пустой массив
+  const [expenses, setExpense] = useState<Expense[]>([]); // Инициализация как пустой массив
   const [form, setForm] = useState<Form>(initState)
-
+  const [types, setCategory] = useState<Category[]>([]); 
   const [openModal, setOpenModal] = useState(false)
 
-
-  const fetchData = async () => {
+  const fetchCategory = async () => {
     try {
       const { data } = await axios({
-        url: '/expenses',
+        url: '/products/categories',
         // params: {} // query
         // data: {} // datasdasdasd
       })
@@ -84,9 +84,33 @@ const Index: FC = () => {
     }
   }
 
+
+  const fetchData = async () => {
+    try {
+      const { data } = await axios({
+        url: '/products',
+
+      })
+      console.log('data', data)
+      if (Array.isArray(data)) { 
+        setExpense(data)
+      } else {
+        console.error('Data is not an array:', data)
+      }
+    } catch (err: any) {
+      console.log('err', err)
+    }
+  }
+
   useEffect(() => {
     fetchData()
   }, [])
+
+  useEffect(() => {
+    if (openModal) {
+      fetchCategory(); // Вызываем fetchTypes при открытии модального окна
+    }
+  }, [openModal]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
@@ -171,7 +195,7 @@ const Index: FC = () => {
           <form className="px-10 py-8 relative bg-blue-300 rounded-md" onSubmit={handleSubmit}>
             <h2 className='text-xl mb-3'>Добавить продукт</h2>
             <div className='flex flex-col gap-4'>
-              <button type="button" onClick={() => setOpenModal(!openModal)} className='absolute top-2.5 right-2.5'><X /></button>
+              <button type="button" onClick={() => setOpenModal(!openModal) }  className='absolute top-2.5 right-2.5'><X /></button>
 
               <div className='flex gap-4'>
                 <Input value={form.total} type="number" onChange={(e) => setForm(prev => ({ ...prev, "total": Number(e.target.value) }))} placeholder='Полная сумма' />
@@ -184,8 +208,8 @@ const Index: FC = () => {
                   <SelectValue placeholder="Выберите категорию" />
                 </SelectTrigger>
                 <SelectContent>
-                  {sampleArray.map(item => (
-                    <SelectItem key={item.id} value={String(item.id)}>{item.value}</SelectItem>
+                  {types.map(item => (
+                    <SelectItem key={item.id} value={String(item.id)}>{item.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
