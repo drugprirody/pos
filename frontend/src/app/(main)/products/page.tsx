@@ -44,6 +44,16 @@ type FormData = {
   comment: string,
 }
 
+type FormIn = {
+  price_per_unit: number,
+  quantity: number,
+  comment: string,
+  product: number | null,
+  product_name: string,
+  supplier: number | null,
+  supplier_name: string,
+}
+
 type TurnOver = {
   total_turnover: number | null;
 }
@@ -52,6 +62,16 @@ type FormCategory = {
   name: string;
   comment: string;
 }
+
+const initialFormIn: FormIn = {
+  price_per_unit: 0,
+  quantity: 0,
+  comment: '',
+  product: null,
+  product_name: '',
+  supplier: null,
+  supplier_name: '',
+};
 
 const initialFormData: FormData = {
   name: '',
@@ -73,10 +93,12 @@ const initialFormCategory: FormCategory = {
 const Index: FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [formIn, setFormIn] = useState<FormIn>(initialFormIn);
   const [formCategory, setFormCategory] = useState<FormCategory>(initialFormCategory);
   const [categories, setCategories] = useState<Category[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [isModalDataOpen, setIsModalDataOpen] = useState(false);
+  const [isModalInOpen, setIsModalInOpen] = useState(false);
   const [isModalCategoryOpen, setIsModalCategoryOpen] = useState(false);
   const [turnOver, setTurnOver] = useState<TurnOver>();
 
@@ -134,11 +156,11 @@ const Index: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (isModalDataOpen) {
+    if (isModalDataOpen || isModalInOpen) {
       fetchCategories();
       fetchSuppliers();
     }
-  }, [isModalDataOpen]);
+  }, [isModalDataOpen, isModalInOpen]);
 
   const handleDataSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,6 +168,16 @@ const Index: FC = () => {
       await axios.post('/products/', JSON.stringify(formData));
       console.log('Form data', formData)
       setIsModalDataOpen(false);
+    } catch (error) {
+      console.error('Error submitting expense data:', error);
+    }
+  };
+
+  const handleInSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post('/products/in/', JSON.stringify(formIn));
+      setIsModalInOpen(false);
     } catch (error) {
       console.error('Error submitting expense data:', error);
     }
@@ -184,6 +216,7 @@ const Index: FC = () => {
 
         <div className="ml-auto flex items-center gap-3">
           <Button onClick={() => setIsModalDataOpen(true)}>Добавить продукт</Button>
+          <Button onClick={() => setIsModalInOpen(true)}>Зафиксировать приход</Button>
           <Button onClick={() => setIsModalCategoryOpen(true)}>Добавить категорию</Button>
         </div>
       </div>
@@ -309,6 +342,79 @@ const Index: FC = () => {
           </form>
         </Modal>
       )}
+
+      {isModalInOpen && (
+        <Modal title="Зафиксировать приход" onClose={() => setIsModalInOpen(false)}>
+          <form onSubmit={handleInSubmit}>
+            <div className="flex flex-col gap-4">
+
+              <label htmlFor="products" className="text-sm  text-gray-700">
+                Продукт
+              </label>
+              <Select onValueChange={(val) => setFormIn((prev) => ({ ...prev, product: Number(val) }))}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Выберите продукт" />
+                </SelectTrigger>
+                <SelectContent>
+                  {products.map((elements) => (
+                    <SelectItem key={elements.id} value={String(elements.id)}>
+                      {elements.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <label htmlFor="supplier" className="text-sm  text-gray-700">
+                Поставщик
+              </label>
+              <Select onValueChange={(val) => setFormIn((prev) => ({ ...prev, supplier: Number(val) }))}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Выберите поставщика" />
+                </SelectTrigger>
+                <SelectContent>
+                  {suppliers.map((elements) => (
+                    <SelectItem key={elements.id} value={String(elements.id)}>
+                      {elements.company_name} || {elements.contact_person_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+
+              <label htmlFor="pricePerUnit" className="text-sm  text-gray-700">
+                Цена за шт.
+              </label>
+              <Input
+                value={formIn.price_per_unit}
+                onChange={(e) => setFormIn((prev) => ({ ...prev, price_per_unit: parseFloat(e.target.value)||0 }))}
+              />
+
+              <label htmlFor="pricePerUnit" className="text-sm  text-gray-700">
+                Кол-во пришедших.
+              </label>
+              <Input
+                value={formIn.quantity}
+                type='text'
+                onChange={(e) => setFormIn((prev) => ({ ...prev, quantity: parseFloat(e.target.value)||0 }))}
+              />
+
+              <label htmlFor="comment" className="text-sm  text-gray-700">
+                Комментарий
+              </label>
+              <Input
+                value={formIn.comment}
+                onChange={(e) => setFormIn((prev) => ({ ...prev, comment: e.target.value }))}
+              />
+
+
+            </div>
+            <div className="flex justify-end mt-3">
+              <Button type="submit" className="bg-stone-700 text-white">Submit</Button>
+            </div>
+          </form>
+        </Modal>
+      )}
+
     </section>
   );
 };
