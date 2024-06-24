@@ -1,230 +1,328 @@
 'use client'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { FC, useEffect, useState } from 'react'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import axios from '@/api/axiosMiddleware'
+
+import { FC, useEffect, useState } from 'react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import axios from '@/api/axiosMiddleware';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 
-
-
-interface Expense {
+interface Product {
   id: number;
-  expense_type: number;
-  expense_type_name: string;
-  total: number;
-  payed: number;
-  comment: string;
-  created_at: string;
+  name: string;
+  category: number;
+  product_category_name: string;
+  stock_quantity: number;
+  retail_price: number;
+  product_supplier_company_name: string;
+  purchase_price: string;
+  comment: string
 }
 
 interface Category {
   id: number;
-  name: string
+  name: string;
 }
 
-type Form = {
-  expense_type: number | null;
-  total: number;
-  payed: number;
+interface Supplier {
+  id: number;
+  company_name: string;
+  contact_person_name: string;
+}
+
+type FormData = {
+  name: string,
+  category: number | null,
+  product_category_name: string,
+  stock_quantity: number,
+  retail_price: number,
+  supplier: number | null,
+  product_supplier_company_name: string,
+  purchase_price: number,
+  comment: string,
+}
+
+type TurnOver = {
+  total_turnover: number | null;
+}
+
+type FormCategory = {
+  name: string;
   comment: string;
 }
 
-const initState = {
-  expense_type: null,
-  total: 0,
-  payed:0,
-  comment: ''
-}
+const initialFormData: FormData = {
+  name: '',
+  category: null,
+  product_category_name: '',
+  stock_quantity: 0,
+  retail_price: 0,
+  supplier: null,
+  product_supplier_company_name: '',
+  purchase_price: 0,
+  comment: '',
+};
+
+const initialFormCategory: FormCategory = {
+  name: '',
+  comment: '',
+};
 
 const Index: FC = () => {
-  const [expenses, setExpense] = useState<Expense[]>([]); // Инициализация как пустой массив
-  const [form, setForm] = useState<Form>(initState)
-  const [types, setCategory] = useState<Category[]>([]); 
-  const [openModal, setOpenModal] = useState(false)
+  const [products, setProducts] = useState<Product[]>([]);
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [formCategory, setFormCategory] = useState<FormCategory>(initialFormCategory);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [isModalDataOpen, setIsModalDataOpen] = useState(false);
+  const [isModalCategoryOpen, setIsModalCategoryOpen] = useState(false);
+  const [turnOver, setTurnOver] = useState<TurnOver>();
 
-  const fetchCategory = async () => {
+  const fetchCategories = async () => {
     try {
-      const { data } = await axios({
-        url: '/products/categories',
-        // params: {} // query
-        // data: {} // datasdasdasd
-      })
-      console.log('data', data)
-      if (Array.isArray(data)) { // Убедитесь, что data является массивом
-        setCategory(data)
+      const { data } = await axios.get('/products/categories');
+      if (Array.isArray(data)) {
+        setCategories(data);
       } else {
-        console.error('Data is not an array:', data)
+        console.error('Data is not an array:', data);
       }
-    } catch (err: any) {
-      console.log('err', err)
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
-  }
+  };
 
-
-  const fetchData = async () => {
+  const fetchSuppliers = async () => {
     try {
-      const { data } = await axios({
-        url: '/products',
-
-      })
-      console.log('data', data)
-      if (Array.isArray(data)) { 
-        setExpense(data)
+      const { data } = await axios.get('/products/suppliers');
+      if (Array.isArray(data)) {
+        setSuppliers(data);
       } else {
-        console.error('Data is not an array:', data)
+        console.error('Data is not an array:', data);
       }
-    } catch (err: any) {
-      console.log('err', err)
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
-  }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const { data } = await axios.get('/products');
+      if (Array.isArray(data)) {
+        setProducts(data);
+      } else {
+        console.error('Data is not an array:', data);
+      }
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
+    }
+  };
+
+  const fetchTurnOver = async () => {
+    try {
+      const { data } = await axios.get('/products/turnover');
+      setTurnOver(data);
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
+    }
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchProducts();
+    fetchTurnOver();
+  }, []);
 
   useEffect(() => {
-    if (openModal) {
-      fetchCategory(); // Вызываем fetchTypes при открытии модального окна
+    if (isModalDataOpen) {
+      fetchCategories();
+      fetchSuppliers();
     }
-  }, [openModal]);
+  }, [isModalDataOpen]);
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault()
+  const handleDataSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      const data = JSON.stringify(form)
-      await axios({
-        url: '/expenses/',
-        method: 'POST',
-        data
-      })
-    } catch (err: any) {
-      console.log('exspence error', err)
+      await axios.post('/products/', JSON.stringify(formData));
+      console.log('Form data', formData)
+      setIsModalDataOpen(false);
+    } catch (error) {
+      console.error('Error submitting expense data:', error);
     }
-  }
+  };
+
+  const handleCategorySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post('/products/categories/', JSON.stringify(formCategory));
+      setIsModalCategoryOpen(false);
+    } catch (error) {
+      console.error('Error submitting category data:', error);
+    }
+  };
 
   return (
-
     <section className="container px-24 py-12">
-      {/* <h1 className="text-3xl text-left mb-4">Расходы</h1> */}
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-        <Card
-          className="sm:col-span-1 " x-chunk="dashboard-05-chunk-0"
-        >
+        <Card className="sm:col-span-1">
           <CardHeader className="pb-2">
-            <CardTitle>Ваши расходы</CardTitle>
-
+            <CardTitle>Ваши продукты</CardTitle>
           </CardHeader>
-          <br />
-          <CardFooter>
-          <Button onClick={() => setOpenModal(!openModal)} >Добавить</Button>
-          </CardFooter>
         </Card>
-        <Card x-chunk="dashboard-05-chunk-1">
+        <Card>
           <CardHeader className="pb-2">
-            <CardDescription>Общий долг</CardDescription>
-            <CardTitle className="text-4xl">1,329 TMT</CardTitle>
+            <CardDescription>Денег на обороте</CardDescription>
+            <CardTitle className="text-4xl">{turnOver?.total_turnover} TMT</CardTitle>
           </CardHeader>
-
         </Card>
-        <Card x-chunk="dashboard-05-chunk-2">
+        <Card>
           <CardHeader className="pb-2">
-            <CardDescription>Выплаченные</CardDescription>
-            <CardTitle className="text-4xl">5,329 TMT</CardTitle>
+            <CardDescription>Сегодняшяя выручка</CardDescription>
+            <CardTitle className="text-4xl"> Undefined TMT</CardTitle>
           </CardHeader>
-
         </Card>
 
-        <Card x-chunk="dashboard-05-chunk-2">
-          <CardHeader className="pb-2">
-            <CardDescription>Общий расход</CardDescription>
-            <CardTitle className="text-4xl">7,329 TMT</CardTitle>
-          </CardHeader>
-
-        </Card>
+        <div className="ml-auto flex items-center gap-3">
+          <Button onClick={() => setIsModalDataOpen(true)}>Добавить продукт</Button>
+          <Button onClick={() => setIsModalCategoryOpen(true)}>Добавить категорию</Button>
+        </div>
       </div>
-
       <Table>
-        <TableCaption>Список расходов</TableCaption>
+        <TableCaption>Ваши продукты</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead >ID</TableHead>
-            <TableHead >Категория</TableHead>
-            <TableHead >Сумма</TableHead>
-            <TableHead>Дата создание</TableHead>
-            <TableHead>Комментарий</TableHead>
+            <TableHead>ID</TableHead>
+            <TableHead>Название</TableHead>
+            <TableHead>Остаток на складе</TableHead>
+            <TableHead>Покупная цена</TableHead>
+            <TableHead>Поставщик</TableHead>
+            <TableHead>Продажная цена</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {expenses.map((exp) => (
-            <TableRow key={exp.id}>
-              <TableCell className="font-medium">{exp.id}</TableCell>
-              <TableCell className="font-medium">{exp.expense_type_name}</TableCell>
-              <TableCell className="font-medium">{exp.total}</TableCell>
-              <TableCell className="font-medium">{exp.created_at}</TableCell>
-              <TableCell className="font-medium">{exp.comment}</TableCell>
+          {products.map((elements) => (
+            <TableRow key={elements.id}>
+              <TableCell className="font-medium">{elements.id}</TableCell>
+              <TableCell className="font-medium">{elements.name}</TableCell>
+              <TableCell className="font-medium">{elements.stock_quantity}</TableCell>
+              <TableCell className="font-medium">{elements.retail_price}</TableCell>
+              <TableCell className="font-medium">{elements.product_supplier_company_name}</TableCell>
+              <TableCell className="font-medium">{elements.purchase_price}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      {openModal && (
-        <div className='w-screen h-screen fixed top-0 left-0 z-40 bg-black/50 flex items-center justify-center'>
-          <form className="px-10 py-8 relative bg-blue-300 rounded-md" onSubmit={handleSubmit}>
-            <h2 className='text-xl mb-3'>Добавить продукт</h2>
-            <div className='flex flex-col gap-4'>
-              <button type="button" onClick={() => setOpenModal(!openModal) }  className='absolute top-2.5 right-2.5'><X /></button>
+      {isModalCategoryOpen && (
+        <Modal title="Добавить категорию" onClose={() => setIsModalCategoryOpen(false)}>
+          <form onSubmit={handleCategorySubmit}>
+            <div className="flex flex-col gap-4">
+              <Input
+                value={formCategory.name}
+                onChange={(e) => setFormCategory((prev) => ({ ...prev, name: e.target.value }))}
+                placeholder="Название категории"
+              />
+              <Input
+                value={formCategory.comment}
+                onChange={(e) => setFormCategory((prev) => ({ ...prev, comment: e.target.value }))}
+                placeholder="Комментарий"
+              />
+            </div>
+            <div className="flex justify-end mt-3">
+              <Button type="submit" className="bg-stone-700 text-white">Submit</Button>
+            </div>
+          </form>
+        </Modal>
+      )}
+      {isModalDataOpen && (
+        <Modal title="Добавить продукт" onClose={() => setIsModalDataOpen(false)}>
+          <form onSubmit={handleDataSubmit}>
+            <div className="flex flex-col gap-4">
 
-              <div className='flex gap-4'>
-                <Input value={form.total} type="number" onChange={(e) => setForm(prev => ({ ...prev, "total": Number(e.target.value) }))} placeholder='Полная сумма' />
-                <Input value={form.payed} type="number" onChange={(e) => setForm(prev => ({ ...prev, "payed": Number(e.target.value) }))} placeholder='Оплаченная сумма' />
-                <Input value={form.comment} onChange={(e) => setForm(prev => ({ ...prev, "comment": e.target.value }))} placeholder='Комментарий' />
-              </div>
+              <Input
+                value={formData.name}
+                onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                placeholder="Название нового продукта"
+              />
 
-              <Select onValueChange={(val) => setForm(prev => ({ ...prev, "expense_type_id": Number(val) }))}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Выберите категорию" />
+              <label htmlFor="stockQuantity" className="text-sm  text-gray-700">
+                Шт. на складе
+              </label>
+              <Input
+                value={formData.stock_quantity}
+                onChange={(e) => setFormData((prev) => ({ ...prev, stock_quantity: Number(e.target.value) }))}
+                placeholder="Название нового продукта"
+              />
+
+              <label htmlFor="retailPrice" className="text-sm  text-gray-700">
+                Покупная цена
+              </label>
+              <Input
+                value={formData.retail_price}
+                onChange={(e) => setFormData((prev) => ({ ...prev, retail_price: Number(e.target.value) }))}
+                placeholder="Покупная цена"
+              />
+
+              <label htmlFor="purchasePrice" className="text-sm  text-gray-700">
+                Продажная цена
+              </label>
+              <Input
+                value={formData.purchase_price}
+                onChange={(e) => setFormData((prev) => ({ ...prev, purchase_price: Number(e.target.value) }))}
+                placeholder="Продажная цена"
+              />
+
+              <label htmlFor="supplier" className="text-sm  text-gray-700">
+                Поставщик
+              </label>
+              <Select onValueChange={(val) => setFormData((prev) => ({ ...prev, supplier: Number(val) }))}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Выберите поставщика" />
                 </SelectTrigger>
                 <SelectContent>
-                  {types.map(item => (
-                    <SelectItem key={item.id} value={String(item.id)}>{item.name}</SelectItem>
+                  {suppliers.map((elements) => (
+                    <SelectItem key={elements.id} value={String(elements.id)}>
+                      {elements.company_name} | | {elements.contact_person_name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
 
+              <label htmlFor="category" className="text-sm  text-gray-700">
+                Категория продукта
+              </label>
+              <Select onValueChange={(val) => setFormData((prev) => ({ ...prev, category: Number(val) }))}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Выберите категорию" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={String(category.id)}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            <div className='flex justify-end mt-3'>
-
-              <Button type='submit' className='bg-stone-700 text-white'>Submit</Button>
+            <div className="flex justify-end mt-3">
+              <Button type="submit" className="bg-stone-700 text-white">Submit</Button>
             </div>
           </form>
-        </div>
-
+        </Modal>
       )}
     </section>
-  )
-}
+  );
+};
 
-export default Index
+const Modal: FC<{ title: string; onClose: () => void; children: React.ReactNode }> = ({ title, onClose, children }) => (
+  <div className="w-screen h-screen fixed top-0 left-0 z-40 bg-black/50 flex items-center justify-center">
+    <div className="px-10 py-8 relative bg-blue-300 rounded-md">
+      <h2 className="text-xl mb-3">{title}</h2>
+      <button type="button" onClick={onClose} className="absolute top-2.5 right-2.5">
+        <X />
+      </button>
+      {children}
+    </div>
+  </div>
+);
+
+export default Index;
