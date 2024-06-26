@@ -26,6 +26,18 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductInSerializer(serializers.ModelSerializer):
+    product_name = serializers.SerializerMethodField()
+    supplier_name = serializers.SerializerMethodField()
+
+    
+    def get_supplier_name(self, obj):
+        return obj.supplier.company_name
+    
+
+    def get_product_name(self, obj):
+        return obj.product.name
+    
+    
     class Meta:
         model = ProductIn
         fields = '__all__'

@@ -47,8 +47,9 @@ class ProductIn(models.Model):
 
 class ProductOut(models.Model):
     MOVEMENT_STATUS_CHOICES = [
-        ('sold', 'Sold'),
-        ('writeoff', 'Writeoff'),
+        ('sold', 'Продано'),
+        ('writeoff', 'Списано'),
+        ('home', 'Домой'),
     ]
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
