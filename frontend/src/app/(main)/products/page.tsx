@@ -386,7 +386,7 @@ const Index: FC = () => {
               </label>
               <Input
                 value={formIn.price_per_unit}
-                onChange={(e) => setFormIn((prev) => ({ ...prev, price_per_unit: parseFloat(e.target.value)||0 }))}
+                onChange={(e) => setFormIn((prev) => ({ ...prev, price_per_unit: parseFloat(e.target.value) }))}
               />
 
               <label htmlFor="pricePerUnit" className="text-sm  text-gray-700">
