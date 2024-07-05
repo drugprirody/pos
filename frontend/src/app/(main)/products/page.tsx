@@ -8,6 +8,7 @@ import axios from '@/api/axiosMiddleware';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
+import useDebounce from '@/hooks/useDebounce';
 
 interface Product {
   id: number;
@@ -91,6 +92,8 @@ const initialFormCategory: FormCategory = {
 };
 
 const Index: FC = () => {
+
+  //states
   const [products, setProducts] = useState<Product[]>([]);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [formIn, setFormIn] = useState<FormIn>(initialFormIn);
@@ -102,6 +105,11 @@ const Index: FC = () => {
   const [isModalCategoryOpen, setIsModalCategoryOpen] = useState(false);
   const [turnOver, setTurnOver] = useState<TurnOver>();
 
+
+  const [search, setSearch] = useState('')
+  const debouncedValue: string = useDebounce(search, 500);
+
+  //functions
   const fetchCategories = async () => {
     try {
       const { data } = await axios.get('/products/categories');
@@ -192,32 +200,49 @@ const Index: FC = () => {
       console.error('Error submitting category data:', error);
     }
   };
+  const test = () => {
+    console.log("test")
+  }
+
+  useEffect(() => {
+    if (debouncedValue) {
+
+      test()
+    }
+  }, [debouncedValue])
 
   return (
     <section className="container px-24 py-12">
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-        <Card className="sm:col-span-1">
+      <div className="flex space-y-4 flex-col mb-6">
+        <div className='flex space-x-6'>
+          <Card className="flex-1">
           <CardHeader className="pb-2">
             <CardTitle>Ваши продукты</CardTitle>
           </CardHeader>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Денег на обороте</CardDescription>
-            <CardTitle className="text-4xl">{turnOver?.total_turnover} TMT</CardTitle>
-          </CardHeader>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Сегодняшяя выручка</CardDescription>
-            <CardTitle className="text-4xl"> Undefined TMT</CardTitle>
-          </CardHeader>
-        </Card>
+          </Card>
+          <Card className="flex-1">
+            <CardHeader className="pb-2">
+              <CardDescription>Оборот</CardDescription>
+              <CardTitle className="text-4xl">{turnOver?.total_turnover} TMT</CardTitle>
+            </CardHeader>
+          </Card>
+          <Card className="flex-1">
+            <CardHeader className="pb-2">
+              <CardDescription>Сегодняшняя выручка</CardDescription>
+              <CardTitle className="text-4xl"> 200 TMT</CardTitle>
+            </CardHeader>
+          </Card>
+        </div>
 
-        <div className="ml-auto flex items-center gap-3">
+        <div className=" flex justify-between items-center space-x-8">
+          <div className='flex-1 max-w-80'>
+            <Input className='w-full' placeholder='Поиск...' value={search} onChange={(e) => setSearch(e.target.value)} />
+          </div>
+          <div className='space-x-2'>
           <Button onClick={() => setIsModalDataOpen(true)}>Добавить продукт</Button>
           <Button onClick={() => setIsModalInOpen(true)}>Зафиксировать приход</Button>
           <Button onClick={() => setIsModalCategoryOpen(true)}>Добавить категорию</Button>
+          </div>
         </div>
       </div>
       <Table>
@@ -268,7 +293,7 @@ const Index: FC = () => {
       )}
       {isModalDataOpen && (
         <Modal title="Добавить продукт" onClose={() => setIsModalDataOpen(false)}>
-          <form onSubmit={handleDataSubmit}>
+          <form onSubmit={handleDataSubmit} className='w-full'>
             <div className="flex flex-col gap-4">
 
               <Input
@@ -304,6 +329,10 @@ const Index: FC = () => {
                 placeholder="Продажная цена"
               />
 
+              <div className='flex space-x-4 '>
+
+                <div>
+
               <label htmlFor="supplier" className="text-sm  text-gray-700">
                 Поставщик
               </label>
@@ -319,6 +348,9 @@ const Index: FC = () => {
                   ))}
                 </SelectContent>
               </Select>
+                </div>
+
+                <div>
 
               <label htmlFor="category" className="text-sm  text-gray-700">
                 Категория продукта
@@ -335,6 +367,10 @@ const Index: FC = () => {
                   ))}
                 </SelectContent>
               </Select>
+                </div>
+
+              </div>
+
             </div>
             <div className="flex justify-end mt-3">
               <Button type="submit" className="bg-stone-700 text-white">Submit</Button>
@@ -386,7 +422,8 @@ const Index: FC = () => {
               </label>
               <Input
                 value={formIn.price_per_unit}
-                onChange={(e) => setFormIn((prev) => ({ ...prev, price_per_unit: parseFloat(e.target.value) }))}
+                type='number'
+                onChange={(e) => setFormIn((prev) => ({ ...prev, price_per_unit: Number(e.target.value) }))}
               />
 
               <label htmlFor="pricePerUnit" className="text-sm  text-gray-700">
@@ -421,11 +458,12 @@ const Index: FC = () => {
 
 const Modal: FC<{ title: string; onClose: () => void; children: React.ReactNode }> = ({ title, onClose, children }) => (
   <div className="w-screen h-screen fixed top-0 left-0 z-40 bg-black/50 flex items-center justify-center">
-    <div className="px-10 py-8 relative bg-blue-300 rounded-md">
+    <div className="px-10 py-8 relative bg-blue-300 rounded-md w-[500px]">
       <h2 className="text-xl mb-3">{title}</h2>
       <button type="button" onClick={onClose} className="absolute top-2.5 right-2.5">
         <X />
       </button>
+
       {children}
     </div>
   </div>
