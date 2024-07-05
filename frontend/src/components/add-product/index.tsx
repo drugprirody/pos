@@ -38,7 +38,7 @@ const Index: FC<Props> = ({ close }) => {
       <form className="px-10 py-8 relative bg-blue-300 rounded-md" onSubmit={handleSubmit}>
         <h2 className='text-xl mb-3'>Добавить продукт</h2>
         <div className='flex flex-col gap-4'>
-          <button onClick={close} className='absolute top-2.5 right-2.5'><X /></button>
+          <button type="button" onClick={close} className='absolute top-2.5 right-2.5'><X /></button>
 
           <div className='flex gap-4'>
             <Input onChange={(e) => setForm(prev => ({ ...prev, "name": e.target.value }))} placeholder='Name' />

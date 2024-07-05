@@ -1,9 +1,13 @@
-import { AlarmSmoke, FootprintsIcon, Book, Airplay } from "lucide-react";
+// Sidebar-config
+import { AlarmSmoke, FootprintsIcon, Book, Airplay, Banana, BarChart, SquareSplitHorizontal,Barcode} from "lucide-react";
 
 export const NAV_ITEMS = [
   { title: "Клиенты", url: "/", Icon: AlarmSmoke },
-  { title: "Категории", url: "/categories", Icon: Airplay},
+  { title: "Поставщики", url: "/suppliers", Icon: Banana },
+  { title: "Категории -PR", url: "/categories", Icon: Airplay},
+  { title: "Расходы", url: "/expenses", Icon: Book},
   { title: "Продукты", url: "/products", Icon: FootprintsIcon },
-  { title: "История", url: "/history", Icon: Book },
+  { title: "Приход -PR", url: "/products/in", Icon: BarChart },
+  { title: "Уход -PR", url: "/products/out", Icon: SquareSplitHorizontal },
 ];
 
