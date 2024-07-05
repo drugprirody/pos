@@ -43,6 +43,17 @@ class ProductInSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductOutSerializer(serializers.ModelSerializer):
+    movement_status_name = serializers.CharField(source='get_movement_status_display', read_only=True)
+    product_name = serializers.SerializerMethodField()
+    sum_of_losses = serializers.SerializerMethodField()
+
+    def get_product_name(self, obj):
+        return obj.product.name
+    
+
+    def get_sum_of_losses(self, obj):
+        return obj.quantity * obj.retail_price
+
     class Meta:
         model = ProductOut
         fields = '__all__'
